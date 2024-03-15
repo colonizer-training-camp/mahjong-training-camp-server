@@ -46,8 +46,8 @@ jobs:
         run: |
           touch ./src/config.ts
           echo "${{ secrets.SERVER_CONFIG }}" >> ./src/config.ts
-          touch ./prisma/.env
-          echo '${{ secrets.SERVER_PRISMA_ENV }}' >> ./prisma/.env
+          touch ./src/prisma/.env
+          echo '${{ secrets.SERVER_PRISMA_ENV }}' >> ./src/prisma/.env
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
