@@ -15,8 +15,8 @@ jobs:
         run: |
           touch ./src/config.ts
           echo "${{ secrets.SERVER_CONFIG }}" >> ./src/config.ts
-          touch ./prisma/.env
-          echo '${{ secrets.SERVER_PRISMA_ENV }}' >> ./prisma/.env
+          touch ./src/prisma/.env
+          echo '${{ secrets.SERVER_PRISMA_ENV }}' >> ./src/prisma/.env
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1

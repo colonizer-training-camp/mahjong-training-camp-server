@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum GameType {
+  P4_TOUPUUSEN
+  P3_TOUPUUSEN
+  P4_HANCHAN
+  P3_HANCHAN
+}
+
+enum Wind {
+  EAST
+  SOUTH
+  WEST
+  NORTH
+}
+
+model User {
+  userId      Int      @id @default(autoincrement())
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userScores UserScore[]
+}
+
+model GameRecord {
+  gameId    Int      @id @default(autoincrement())
+  gameType  GameType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userScores UserScore[]
+}
+
+model UserScore {
+  userScoreId Int      @id @default(autoincrement())
+  userId      Int
+  gameId      Int
+  initialSeat Wind
+  score       Int
+  rank        Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [userId])
+  gameRecord GameRecord @relation(fields: [gameId], references: [gameId])
+}
