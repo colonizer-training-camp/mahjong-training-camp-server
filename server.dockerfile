@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN yarn install --pure-lockfile --non-interactive
-RUN yarn global add nodemon ts-node
 RUN yarn build
 
 WORKDIR /usr/src/app
