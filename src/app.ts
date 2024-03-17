@@ -28,7 +28,8 @@ app.use(helmet());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.NODE_ENV !== "production" ? true : /solved\.ac$/,
+    origin: true,
+    // process.env.NODE_ENV !== "production" ? true : /colonizer\.training$/,
     optionsSuccessStatus: 200,
   })
 );
@@ -72,7 +73,7 @@ app.use(
   })
 );
 
-app.use("/api/v3", api);
+app.use("/api", api);
 
 if (process.env.NODE_ENV !== "production") {
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swagger));
@@ -83,6 +84,15 @@ process.on("unhandledRejection", () => {
 });
 
 app.use(runtypeErrorHandler);
+
+server.listen(app.get("port"), () => {
+  if (process.send !== undefined) {
+    process.send("ready");
+  }
+
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  console.log(`Server listening on port ${app.get("port")}...`);
+});
 
 process.on("SIGINT", () => {
   app.use((req, res, next) => {
