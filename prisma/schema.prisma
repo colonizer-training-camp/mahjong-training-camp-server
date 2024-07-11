@@ -21,11 +21,30 @@ enum Wind {
   NORTH
 }
 
+enum Yakuman {
+  TENHOU // 天和
+  CHIIHOU // 地和
+  SUUANKOU // 四暗刻
+  SUUANKOU_TANKI // 四暗刻単騎
+  KOKUSHI_MUSOU // 国士無双
+  KOKUSHI_MUSOU_13MEN // 国士無双13面
+  CHUUREN_POUTOU // 九蓮宝燈
+  CHUUREN_POUTOU_JUNSEI // 純正九蓮宝燈
+  RYUUIISOU // 緑一色
+  TSUUIISOU // 字一色
+  CHINROUTOU // 清老頭
+  DAISANGEN // 大三元
+  SHOUSUUSHII // 小四喜
+  DAISUUSHII // 大四喜
+  SUUKANTSU // 四槓子
+}
+
 model User {
-  userId      Int      @id @default(autoincrement())
+  userId      Int       @id @default(autoincrement())
   displayName String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  firstGameAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   userScores UserScore[]
 }
@@ -37,6 +56,9 @@ model GameRecord {
   updatedAt DateTime @updatedAt
 
   userScores UserScore[]
+
+  @@index([gameType])
+  @@index([createdAt])
 }
 
 model UserScore {
@@ -45,10 +67,42 @@ model UserScore {
   gameId      Int
   initialSeat Wind
   score       Int
+  uma         Decimal
   rank        Int
+  stars       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  userScoreYakumanRecords UserScoreYakumanRecord[]
+
   user       User       @relation(fields: [userId], references: [userId])
   gameRecord GameRecord @relation(fields: [gameId], references: [gameId])
+
+  @@index([userId])
+  @@index([gameId])
+  @@index([score])
+  @@index([rank])
+  @@index([createdAt])
+}
+
+model UserScoreYakumanRecord {
+  userScoreYakumanRecordId Int      @id @default(autoincrement())
+  userScoreId              Int
+  starCount                Int
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  userScoreYakuman UserScoreYakuman[]
+
+  userScore UserScore @relation(fields: [userScoreId], references: [userScoreId])
+}
+
+model UserScoreYakuman {
+  userScoreYakumanId       Int      @id @default(autoincrement())
+  userScoreYakumanRecordId Int
+  yakuman                  Yakuman
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  userScoreYakumanRecord UserScoreYakumanRecord @relation(fields: [userScoreYakumanRecordId], references: [userScoreYakumanRecordId])
 }
