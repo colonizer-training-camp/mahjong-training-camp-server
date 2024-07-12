@@ -1,13 +1,14 @@
 import { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
-import { Number, Record, String } from "runtypes";
-import { findUserByLoginId } from "src/model/user/general";
+import { Number, Record } from "runtypes";
+import { findUserByUserId } from "src/model/user/general";
 import config from "../config";
+import { Integer } from "./guard";
 
 const TOKEN_VERSION = 1;
 
 const JWT = Record({
-  loginId: String,
+  userId: Integer,
   expiresAt: Number,
   tokenVersion: Number.optional(),
 });
@@ -17,7 +18,7 @@ export class CredentialError extends Error {}
 export function UserToJWT(user: User, expiresAt: Date): string {
   return jwt.sign(
     {
-      loginId: user.loginId,
+      userId: user.userId,
       tokenVersion: TOKEN_VERSION,
       expiresAt: expiresAt.getTime(),
     },
@@ -33,7 +34,7 @@ export async function JWTToUser(token: string): Promise<User> {
   });
 
   try {
-    const { loginId, tokenVersion, expiresAt } = JWT.check(data);
+    const { userId, tokenVersion, expiresAt } = JWT.check(data);
     if (tokenVersion === undefined || tokenVersion < TOKEN_VERSION) {
       throw new CredentialError("Token version is too old");
     }
@@ -41,7 +42,7 @@ export async function JWTToUser(token: string): Promise<User> {
       throw new CredentialError("Token has expired");
     }
 
-    const user = await findUserByLoginId(loginId);
+    const user = await findUserByUserId(userId);
     if (!user) throw new CredentialError("Invalid credentials.");
 
     return user;
