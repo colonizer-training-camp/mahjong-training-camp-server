@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { Record, String } from "runtypes";
-import db from "src/database/db";
+import { findUserByLoginId } from "src/model/user/general";
 import { safeHash } from "src/utils/hash";
 import { UserToJWT } from "src/utils/jwt";
 
@@ -12,11 +12,7 @@ const Body = Record({
 const login: RequestHandler = async (req, res) => {
   const { loginId, password } = Body.check(req.body);
 
-  const user = await db.user.findUnique({
-    where: {
-      loginId,
-    },
-  });
+  const user = await findUserByLoginId(loginId);
 
   if (!user) {
     res.status(401).send({

@@ -70,7 +70,7 @@ model UserScore {
   gameId      Int
   initialSeat Wind
   score       Int
-  uma         Decimal
+  uma         Decimal  @db.Decimal(10, 1)
   rank        Int
   stars       Int
   createdAt   DateTime @default(now())

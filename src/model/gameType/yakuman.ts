@@ -1,0 +1,19 @@
+import { Yakuman } from "@prisma/client";
+
+export const YAKUMAN_STARS_DEFAULT: Record<Yakuman, number> = {
+  TENHOU: 1,
+  CHIIHOU: 1,
+  SUUANKOU: 1,
+  SUUANKOU_TANKI: 2,
+  KOKUSHI_MUSOU: 1,
+  KOKUSHI_MUSOU_13MEN: 2,
+  CHUUREN_POUTOU: 1,
+  CHUUREN_POUTOU_JUNSEI: 2,
+  RYUUIISOU: 1,
+  TSUUIISOU: 1,
+  CHINROUTOU: 1,
+  DAISANGEN: 1,
+  SHOUSUUSHII: 1,
+  DAISUUSHII: 2,
+  SUUKANTSU: 1,
+};

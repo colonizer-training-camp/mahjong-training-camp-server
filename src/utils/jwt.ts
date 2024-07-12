@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import { Number, Record, String } from "runtypes";
-import db from "src/database/db";
+import { findUserByLoginId } from "src/model/user/general";
 import config from "../config";
 
 const TOKEN_VERSION = 1;
@@ -41,11 +41,7 @@ export async function JWTToUser(token: string): Promise<User> {
       throw new CredentialError("Token has expired");
     }
 
-    const user = await db.user.findUnique({
-      where: {
-        loginId,
-      },
-    });
+    const user = await findUserByLoginId(loginId);
     if (!user) throw new CredentialError("Invalid credentials.");
 
     return user;
