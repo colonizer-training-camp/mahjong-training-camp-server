@@ -40,11 +40,14 @@ enum Yakuman {
 }
 
 model User {
-  userId      Int       @id @default(autoincrement())
-  displayName String
-  firstGameAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  userId         Int       @id @default(autoincrement())
+  loginId        String    @unique
+  displayName    String
+  hashedPassword String
+  isHost         Boolean   @default(false)
+  firstGameAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   userScores UserScore[]
 }

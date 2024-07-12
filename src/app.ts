@@ -7,6 +7,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import swaggerUI from "swagger-ui-express";
+import { User } from "@prisma/client";
 import api from "./api";
 import config from "./config";
 import runtypeErrorHandler from "./middlewares/runtypeErrorHandler";
@@ -16,7 +17,7 @@ import swagger from "./swagger";
 declare global {
   namespace Express {
     interface Request {
-      //   user?: User;
+      user?: User;
     }
   }
 }
