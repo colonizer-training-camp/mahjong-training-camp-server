@@ -5,7 +5,7 @@ import { GameInputGuard } from "src/utils/guard";
 
 const Body = GameInputGuard;
 
-const append: RequestHandler = async (req, res) => {
+const handler: RequestHandler = async (req, res) => {
   const body = Body.check(req.body);
 
   if (!req.user) {
@@ -20,4 +20,4 @@ const append: RequestHandler = async (req, res) => {
   res.sendStatus(200);
 };
 
-export default append;
+export default handler;

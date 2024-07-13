@@ -21,6 +21,10 @@ export const YakumanGuard = StringType.withConstraint<Yakuman>((x) =>
 
 export const Integer = NumberType.withConstraint((x) => Number.isInteger(x));
 
+export const IntegerString = StringType.withConstraint((x) =>
+  Number.isInteger(Number(x))
+);
+
 export const GameInputGuard = RecordType({
   gameType: GameTypeGuard,
   userScores: ArrayType(

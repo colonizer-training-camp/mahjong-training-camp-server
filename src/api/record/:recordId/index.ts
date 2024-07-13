@@ -1,11 +1,9 @@
 import { Router } from "express";
 import { wrap } from "src/utils/asyncWrapper";
-import $put from "./$put";
-import recordId from "./:recordId";
+import $delete from "./$delete";
 
 const router = Router();
-router.use("/:recordId", recordId);
 
-router.put("/", wrap($put));
+router.delete("/", wrap($delete));
 
 export default router;
