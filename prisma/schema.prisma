@@ -79,7 +79,7 @@ model UserScore {
   userScoreYakumanRecords UserScoreYakumanRecord[]
 
   user       User       @relation(fields: [userId], references: [userId])
-  gameRecord GameRecord @relation(fields: [gameId], references: [gameId])
+  gameRecord GameRecord @relation(fields: [gameId], references: [gameId], onDelete: Cascade)
 
   @@index([userId])
   @@index([gameId])
@@ -97,7 +97,7 @@ model UserScoreYakumanRecord {
 
   userScoreYakuman UserScoreYakuman[]
 
-  userScore UserScore @relation(fields: [userScoreId], references: [userScoreId])
+  userScore UserScore @relation(fields: [userScoreId], references: [userScoreId], onDelete: Cascade)
 }
 
 model UserScoreYakuman {
@@ -107,5 +107,5 @@ model UserScoreYakuman {
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
 
-  userScoreYakumanRecord UserScoreYakumanRecord @relation(fields: [userScoreYakumanRecordId], references: [userScoreYakumanRecordId])
+  userScoreYakumanRecord UserScoreYakumanRecord @relation(fields: [userScoreYakumanRecordId], references: [userScoreYakumanRecordId], onDelete: Cascade)
 }
