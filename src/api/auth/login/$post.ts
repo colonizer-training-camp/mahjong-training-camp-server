@@ -30,7 +30,10 @@ const login: RequestHandler = async (req, res) => {
   }
 
   const jwt = UserToJWT(user, new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)); // 7 days
-  res.header("Authorization", `Bearer ${jwt}`).sendStatus(200);
+  res.cookie("Authorization", jwt, {
+    signed: true,
+  });
+  res.sendStatus(200);
 };
 
 export default login;

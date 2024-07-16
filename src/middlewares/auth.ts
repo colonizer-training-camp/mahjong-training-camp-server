@@ -1,5 +1,10 @@
 import { RequestHandler } from "express";
+import { Record, String } from "runtypes";
 import { JWTToUser } from "../utils/jwt";
+
+const Cookie = Record({
+  Authorization: String,
+});
 
 const Auth: RequestHandler = async (req, res, next) => {
   let token: string | null = null;
@@ -8,6 +13,9 @@ const Auth: RequestHandler = async (req, res, next) => {
     if (auth.startsWith("Bearer ")) {
       token = auth.substring(7);
     }
+  }
+  if (Cookie.guard(req.signedCookies)) {
+    token = req.signedCookies.Authorization;
   }
 
   if (token !== null) {
