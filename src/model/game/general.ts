@@ -12,8 +12,13 @@ const windRank: Record<Wind, number> = {
 
 export const gameInputToGameDataCreateInput = (
   gameInput: Static<typeof GameInputGuard>
-): Prisma.GameRecordCreateInput => {
-  const { gameType, userScores } = gameInput;
+): Omit<Prisma.GameRecordCreateInput, "addedByUser"> => {
+  const {
+    gameType,
+    userScores,
+    createdAt: createdAtInput = new Date(),
+  } = gameInput;
+  const createdAt = new Date(createdAtInput);
   userScores.sort((a, b) => {
     if (a.score !== b.score) return b.score - a.score;
     return windRank[a.initialSeat] - windRank[b.initialSeat];
@@ -45,13 +50,23 @@ export const gameInputToGameDataCreateInput = (
                   0
                 ),
                 userScoreYakuman: {
-                  create: yakumans.map((yakuman) => ({ yakuman })),
+                  create: yakumans.map((yakuman) => ({
+                    yakuman,
+                    createdAt,
+                    updatedAt: createdAt,
+                  })),
                 },
+                createdAt,
+                updatedAt: createdAt,
               })),
             },
+            createdAt,
+            updatedAt: createdAt,
           };
         }
       ),
     },
+    createdAt,
+    updatedAt: createdAt,
   };
 };

@@ -35,7 +35,8 @@ export const GameInputGuard = RecordType({
       yakuman: ArrayType(ArrayType(YakumanGuard)),
     })
   ),
-}).withConstraint(({ gameType, userScores }) => {
+  createdAt: StringType.optional(),
+}).withConstraint(({ gameType, userScores, createdAt }) => {
   const { players, totalScore, winds } = gameTypes[gameType];
   if (userScores.length !== players) {
     return false;
@@ -50,6 +51,9 @@ export const GameInputGuard = RecordType({
     return false;
   }
   if (Array.from(playerWinds).some((wind) => !winds.includes(wind))) {
+    return false;
+  }
+  if (createdAt && Number.isNaN(new Date(createdAt).getTime())) {
     return false;
   }
   return true;

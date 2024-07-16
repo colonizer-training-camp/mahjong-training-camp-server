@@ -5,11 +5,13 @@ export const toUserResponse = ({
   loginId,
   displayName,
   isHost,
+  lastGameAt,
 }: User) => {
   return {
     userId,
     loginId,
     displayName,
     isHost,
+    lastGameAt: lastGameAt?.toISOString() || null,
   };
 };

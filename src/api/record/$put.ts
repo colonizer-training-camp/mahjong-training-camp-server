@@ -14,7 +14,21 @@ const handler: RequestHandler = async (req, res) => {
   }
 
   await db.gameRecord.create({
-    data: gameInputToGameDataCreateInput(body),
+    data: {
+      ...gameInputToGameDataCreateInput(body),
+      addedByUserId: req.user.userId,
+    },
+  });
+
+  await db.user.updateMany({
+    where: {
+      userId: {
+        in: body.userScores.map((x) => x.userId),
+      },
+    },
+    data: {
+      lastGameAt: new Date(),
+    },
   });
 
   res.sendStatus(200);

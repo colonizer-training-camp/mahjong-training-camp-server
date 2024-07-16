@@ -12,6 +12,7 @@ enum GameType {
   P3_TOUPUUSEN
   P4_HANCHAN
   P3_HANCHAN
+  P3_TABOO
 }
 
 enum Wind {
@@ -46,19 +47,23 @@ model User {
   hashedPassword String?
   isHost         Boolean   @default(false)
   firstGameAt    DateTime?
+  lastGameAt     DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  userScores UserScore[]
+  userScores       UserScore[]
+  addedGameRecords GameRecord[]
 }
 
 model GameRecord {
-  gameId    Int      @id @default(autoincrement())
-  gameType  GameType
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  gameId        Int      @id @default(autoincrement())
+  gameType      GameType
+  addedByUserId Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  userScores UserScore[]
+  addedByUser User        @relation(fields: [addedByUserId], references: [userId])
+  userScores  UserScore[]
 
   @@index([gameType])
   @@index([createdAt])
