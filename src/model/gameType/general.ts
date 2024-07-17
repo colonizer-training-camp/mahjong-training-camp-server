@@ -82,8 +82,8 @@ export const gameTypes: Record<GameType, GameTypeDetails> = {
       return scoreUma + rankUma;
     },
     displayName: {
-      ko: "4인 통풍전",
-      en: "4-player Toupusen",
+      ko: "4인 동풍전",
+      en: "4-player Toupuusen",
       ja: "四人東風戦",
     },
   },
@@ -100,8 +100,8 @@ export const gameTypes: Record<GameType, GameTypeDetails> = {
       return scoreUma + rankUma;
     },
     displayName: {
-      ko: "3인 통풍전",
-      en: "3-player Toupusen",
+      ko: "3인 동풍전",
+      en: "3-player Toupuusen",
       ja: "三人東風戦",
     },
   },
